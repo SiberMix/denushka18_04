@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: numismatics1
+      POSTGRES_PASSWORD: numismatics1
+      POSTGRES_DB: numismatics1
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
