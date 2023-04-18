@@ -1,11 +1,11 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-engine = create_engine(
-    "postgresql+psycopg2://numismatics1:numismatics1@localhost:5432/numismatics1"
-)
+engine = create_engine(os.environ['DB_URL'])
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
