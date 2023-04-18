@@ -1,10 +1,13 @@
-from fastapi import FastAPI, Depends, Form, Request, Response
+from datetime import datetime, timedelta
+
+from fastapi import FastAPI, Depends, Form, Request
 from fastapi.responses import HTMLResponse
+from jose import jwt
+
 from api.v1.endpoints import coin_collection, currency, issuing_country, mint, _types
 
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from starlette.responses import RedirectResponse
 
 from database import engine, Base, get_db
 from sqlalchemy.orm import Session
@@ -37,10 +40,10 @@ async def register_get(request: Request):
 
 @app.post("/register", response_class=HTMLResponse)
 async def register_post(
-    request: Request,
-    db: Session = Depends(get_db),
-    username: str = Form(...),
-    password: str = Form(...),
+        request: Request,
+        db: Session = Depends(get_db),
+        username: str = Form(...),
+        password: str = Form(...),
 ):
     user = db.query(User).filter(User.username == username).first()
     if user:
@@ -64,10 +67,10 @@ async def login_get(request: Request):
 
 @app.post("/login", response_class=HTMLResponse)
 async def login_post(
-    request: Request,
-    db: Session = Depends(get_db),
-    username: str = Form(...),
-    password: str = Form(...),
+        request: Request,
+        db: Session = Depends(get_db),
+        username: str = Form(...),
+        password: str = Form(...),
 ):
     user = db.query(User).filter(User.username == username).first()
     if not user or user.password != password:
@@ -80,9 +83,18 @@ async def login_post(
             },
         )
 
+    # Generate token
+    token_expiration = datetime.utcnow() + timedelta(hours=1)  # token expires in 1 hour
+    token_payload = {"sub": user.username, "exp": token_expiration}
+    token = jwt.encode(token_payload, "secret_key", algorithm="HS256")
+
+    # Update user's token field in the database
+    user.token = token
+    db.commit()
+
     name = user.username
     return templates.TemplateResponse(
-        "dashboard.html", {"request": request, "name": name}
+        "dashboard.html", {"request": request, "name": name, "token": token}
     )
 
 
