@@ -2,9 +2,9 @@
 
 Этот файл содержит инструкции по установке и запуску приложения.
 Stack: 
-alembic           1.10.3
-anyio             3.6.2
-black             23.3.0
+alembic           1.10.3\
+anyio             3.6.2\
+black             23.3.0\
 cffi              1.15.1
 click             8.1.3
 cryptography      40.0.2
