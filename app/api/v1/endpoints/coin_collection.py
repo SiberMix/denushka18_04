@@ -22,7 +22,6 @@ def create_coin_collection(
     return crud.create_coin_collection(db, coin_collection)
 
 
-
 @router.get("/", response_model=List[schemas.CoinCollection])
 def read_coin_collections(
     skip: int = 0, limit: int = 100, db: Session = Depends(get_db)

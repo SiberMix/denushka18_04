@@ -7,12 +7,14 @@ import secrets
 
 router = APIRouter()
 
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
 
 @router.post("/register")
 def register_user(username: str, password: str, db: Session = Depends(get_db)):
@@ -22,6 +24,7 @@ def register_user(username: str, password: str, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
     return {"id": user.id, "username": user.username}
+
 
 @router.post("/login")
 def login(username: str, password: str, db: Session = Depends(get_db)):

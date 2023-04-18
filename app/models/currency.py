@@ -4,11 +4,12 @@ from database import Base
 
 
 class Currency(Base):
-    """"
+    """ "
     Хранит информацию о валюте,
     используемой для монет коллекции.
     Также определяет отношения между валютой и другими моделями.
     """
+
     __tablename__ = "currencies"
 
     id = Column(Integer, primary_key=True, index=True)

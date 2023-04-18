@@ -7,6 +7,7 @@ class Mint(Base):
     """
     Хранит информацию о монетном дворе, выпустившем монеты коллекции.
     """
+
     __tablename__ = "mints"
 
     id = Column(Integer, primary_key=True, index=True)

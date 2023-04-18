@@ -17,7 +17,6 @@ def create_currency(currency: schemas.CurrencyCreate, db: Session = Depends(get_
     return crud.create_currency(db, currency)
 
 
-
 @router.get("/", response_model=List[schemas.Currency])
 def read_currencies(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """

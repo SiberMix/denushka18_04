@@ -85,6 +85,8 @@ class MintBase(BaseModel):
 
 class MintCreate(MintBase):
     pass
+
+
 class MintUpdate(MintBase):
     pass
 

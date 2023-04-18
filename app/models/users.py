@@ -7,6 +7,7 @@ class User(Base):
     """
     Таблица пользователей.
     """
+
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)

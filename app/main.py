@@ -18,7 +18,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("register.html", {"request": request})
 
 
 @app.get("/register", response_class=HTMLResponse)
@@ -27,17 +27,25 @@ async def register_get(request: Request):
 
 
 @app.post("/register", response_class=HTMLResponse)
-async def register_post(request: Request, db: Session = Depends(get_db), username: str = Form(...),
-                        password: str = Form(...)):
+async def register_post(
+    request: Request,
+    db: Session = Depends(get_db),
+    username: str = Form(...),
+    password: str = Form(...),
+):
     user = db.query(User).filter(User.username == username).first()
     if user:
-        return templates.TemplateResponse("register.html", {"request": request, "message": "User already exists"})
+        return templates.TemplateResponse(
+            "register.html", {"request": request, "message": "User already exists"}
+        )
     else:
         new_user = User(username=username, password=password)
         db.add(new_user)
         db.commit()
 
-        return templates.TemplateResponse("register.html", {"request": request, "message": "Registration successful"})
+        return templates.TemplateResponse(
+            "register.html", {"request": request, "message": "Registration successful"}
+        )
 
 
 @app.get("/login", response_class=HTMLResponse)
@@ -46,15 +54,28 @@ async def login_get(request: Request):
 
 
 @app.post("/login", response_class=HTMLResponse)
-async def login_post(request: Request, db: Session = Depends(get_db), username: str = Form(...),
-                     password: str = Form(...)):
+async def login_post(
+    request: Request,
+    db: Session = Depends(get_db),
+    username: str = Form(...),
+    password: str = Form(...),
+):
     user = db.query(User).filter(User.username == username).first()
     if not user or user.password != password:
-        return templates.TemplateResponse("login.html", {"request": request, "message": "Invalid username or password",
-                                                         "image_path": "nopass.jpg"})
+        return templates.TemplateResponse(
+            "login.html",
+            {
+                "request": request,
+                "message": "Invalid username or password",
+                "image_path": "nopass.jpg",
+            },
+        )
 
     name = user.username
-    return templates.TemplateResponse("dashboard.html", {"request": request, "name": name})
+    return templates.TemplateResponse(
+        "dashboard.html", {"request": request, "name": name}
+    )
+
 
 if __name__ == "__main__":
     import uvicorn

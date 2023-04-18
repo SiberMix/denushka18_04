@@ -7,6 +7,7 @@ class CoinCollection(Base):
     """
     Хранит информацию о коллекции монет, такую как название, год выпуска, номинал, и т.д.
     """
+
     __tablename__ = "coin_collections"
 
     id = Column(Integer, primary_key=True, index=True)
