@@ -1,5 +1,7 @@
 from fastapi import FastAPI, Depends, Form, Request, Response
 from fastapi.responses import HTMLResponse
+from api.v1.endpoints import coin_collection, currency, issuing_country, mint, _types
+
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
@@ -12,6 +14,13 @@ from models.user import User
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.include_router(coin_collection.router, prefix="/v1")
+app.include_router(currency.router, prefix="/v1")
+app.include_router(issuing_country.router, prefix="/v1")
+app.include_router(mint.router, prefix="/v1")
+app.include_router(_types.router, prefix="/v1")
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
