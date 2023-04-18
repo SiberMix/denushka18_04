@@ -4,6 +4,9 @@ from database import Base
 
 
 class Type(Base):
+    """
+    Содержит описание общих для всего проекта типов данных
+    """
     __tablename__ = "types"
 
     id = Column(Integer, primary_key=True, index=True)

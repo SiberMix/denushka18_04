@@ -4,6 +4,9 @@ from database import Base
 
 
 class CoinCollection(Base):
+    """
+    Хранит информацию о коллекции монет, такую как название, год выпуска, номинал, и т.д.
+    """
     __tablename__ = "coin_collections"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -20,3 +23,4 @@ class CoinCollection(Base):
     currency = relationship("Currency", back_populates="coin_collections")
     mint = relationship("Mint", back_populates="coin_collections")
     issuing_country = relationship("IssuingCountry", back_populates="coin_collections")
+    owner_id = Column(Integer, ForeignKey("users.id"))

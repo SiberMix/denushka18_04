@@ -4,6 +4,9 @@ from database import Base
 
 
 class IssuingCountry(Base):
+    """
+    Хранит информацию об стране, выпустившей монеты коллекции.
+    """
     __tablename__ = "issuing_countries"
 
     id = Column(Integer, primary_key=True, index=True)
