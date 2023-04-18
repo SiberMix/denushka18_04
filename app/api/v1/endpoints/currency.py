@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
-from scheme import schemas
+from scheme import schemas, crud
 from database import get_db
 from scheme.crud import get_currencies, get_currency
 
@@ -14,7 +14,8 @@ def create_currency(currency: schemas.CurrencyCreate, db: Session = Depends(get_
     """
     Create new currency
     """
-    return create_currency(db, currency)
+    return crud.create_currency(db, currency)
+
 
 
 @router.get("/", response_model=List[schemas.Currency])
@@ -47,7 +48,7 @@ def update_currency(
     existing_currency = get_currency(db, currency_id)
     if existing_currency is None:
         raise HTTPException(status_code=404, detail="Currency not found")
-    return update_currency(db, currency_id, currency)
+    return crud.update_currency(db, currency_id, currency)
 
 
 @router.delete("/{currency_id}", response_model=schemas.Currency)
@@ -58,4 +59,4 @@ def delete_currency(currency_id: int, db: Session = Depends(get_db)):
     existing_currency = get_currency(db, currency_id)
     if existing_currency is None:
         raise HTTPException(status_code=404, detail="Currency not found")
-    return delete_currency(db, currency_id)
+    return crud.delete_currency(db, currency_id)

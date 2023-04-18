@@ -54,15 +54,14 @@ class Type(TypeBase):
 
 class CurrencyBase(BaseModel):
     name: str
-    iso_code: str
 
 
 class CurrencyCreate(CurrencyBase):
-    pass
+    name: str
 
 
 class CurrencyUpdate(CurrencyBase):
-    pass
+    name: str
 
 
 class Currency(CurrencyBase):
@@ -100,7 +99,6 @@ class Mint(MintBase):
 
 class IssuingCountryBase(BaseModel):
     name: str
-    iso_code: str
 
 
 class IssuingCountryCreate(IssuingCountryBase):
