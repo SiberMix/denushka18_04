@@ -220,3 +220,6 @@ def create_user(db: Session, user: UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def get_user_by_token(db: Session, token: str):
+    return db.query(User).filter(User.token == token).first()
